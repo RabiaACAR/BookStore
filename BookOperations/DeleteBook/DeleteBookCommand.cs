@@ -10,12 +10,13 @@ namespace BookStore.BookOperations.DeleteBook
     public class DeleteBookCommand
     {
         private readonly BookStoreContext _context;
+        public int id { get; set; }
 
         public DeleteBookCommand(BookStoreContext context)
         {
             _context = context;
         }
-        public void Handle(int id)
+        public void Handle()
         {
             var book = _context.Books.FirstOrDefault(x => x.Id == id);
             if (book is null)

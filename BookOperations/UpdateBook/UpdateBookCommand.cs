@@ -8,6 +8,7 @@ namespace BookStore.BookOperations.UpdateBook
 {
     public class UpdateBookCommand
     {
+        public int id{ get; set; }
         public UpdateBookViewModel Model { get; set; }
         private readonly BookStoreContext _context;
 
@@ -17,7 +18,7 @@ namespace BookStore.BookOperations.UpdateBook
         }
         public void Handle()
         {
-            var book = _context.Books.SingleOrDefault(x => x.Title == Model.Title);
+            var book = _context.Books.SingleOrDefault(x => x.Id==id);
             if (book is null)
             {
                 throw new InvalidOperationException("Böyle bir kitap yok");

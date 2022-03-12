@@ -189,16 +189,16 @@ namespace BookStore.Controllers
         //}
 
         //VIEWMODEL KULLANARAK CRUD
-        // [HttpGet]
-        // public IActionResult getBooks()
-        //{
-        //    GetBooksQuery query = new GetBooksQuery(_context);
-        //    var result = query.Handle();
-        //    return Ok(result);
-        //}
+         [HttpGet]
+         public IActionResult getBooks()
+        {
+            GetBooksQuery query = new GetBooksQuery(_context);
+            var result = query.Handle();
+            return Ok(result);
+        }
         [HttpPost]
 
-        public IActionResult AddBook(int id,[FromBody]CreateBookViewModel AdddedBook)
+        public IActionResult AddBook([FromBody]CreateBookViewModel AdddedBook)
         {
             CreateBookCommand command = new CreateBookCommand(_context);
             try
@@ -214,18 +214,29 @@ namespace BookStore.Controllers
             return Ok(AdddedBook);
 
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             BooksGetByIdCommand command = new BooksGetByIdCommand(_context);
-            return Ok(command.Handle(id));
+            try
+            {
+                command.id = id;
+                command.Handle();
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);             
+            }
+            return Ok(command.Handle());
         }
-        [HttpPut]
-        public IActionResult updateBook([FromBody] UpdateBookViewModel updatedBook)
+        [HttpPut("{id}")]
+        public IActionResult updateBook(int id,[FromBody] UpdateBookViewModel updatedBook)
         {
             UpdateBookCommand command = new UpdateBookCommand(_context);
             try
             {
+                command.id = id;
                 command.Model = updatedBook;
                 command.Handle();
             }
@@ -242,7 +253,8 @@ namespace BookStore.Controllers
             
             try
             {
-                command.Handle(id);
+                command.id = id;
+                command.Handle();
             }
             catch (Exception ex)
             {
