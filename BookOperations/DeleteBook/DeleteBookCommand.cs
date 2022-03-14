@@ -9,6 +9,7 @@ namespace BookStore.BookOperations.DeleteBook
 {
     public class DeleteBookCommand
     {
+       
         private readonly BookStoreContext _context;
         public int id { get; set; }
 
@@ -25,12 +26,7 @@ namespace BookStore.BookOperations.DeleteBook
             }
             else
             {
-                DeleteBookViewModel model = new DeleteBookViewModel();
-                model.Id = book.Id;
-                model.Genre = ((GenreEnum)book.GenreId).ToString();
-                model.Title = book.Title;
-                model.PageCount = book.PageCount;
-                model.PublishDate = book.PublishDate;
+             
                 _context.Remove(book);
                 _context.SaveChanges();
 
@@ -39,13 +35,7 @@ namespace BookStore.BookOperations.DeleteBook
 
 
     }
+   
 
-    public class DeleteBookViewModel
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Genre { get; set; }
-        public int PageCount { get; set; }
-        public DateTime PublishDate { get; set; }
-    }
+
 }
