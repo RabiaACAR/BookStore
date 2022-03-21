@@ -1,4 +1,6 @@
 using BookStore.Context;
+using BookStore.Middlewares;
+using BookStore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +36,7 @@ namespace BookStore
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookStore", Version = "v1" });
             });
             services.AddDbContext<BookStoreContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDB"));
+            services.AddSingleton<ILoggerService, ConsoleLogger>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +52,7 @@ namespace BookStore
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCustomExceptionMiddle();
 
             app.UseEndpoints(endpoints =>
             {
