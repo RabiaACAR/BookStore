@@ -14,7 +14,7 @@ namespace BookStore.Context
         {
             using (var context = new BookStoreContext(serviceProvider.GetRequiredService < DbContextOptions<BookStoreContext>>()))
             {
-                if (context.Books.Any())
+                if (context.Books.Any() && context.Genres.Any())
                 {
                     return;
                 }
@@ -26,9 +26,16 @@ namespace BookStore.Context
                    new Book {/* Id = 5,*/ Title = "Kuyucaklı Yusuf", GenreId = 2, PageCount = 250, PublishDate = new DateTime(2018, 4, 12) }
 
                 );
+                
+                context.Genres.AddRange(
+                  new Genre { Name = "PersonelGrowth" },
+                  new Genre { Name = "Science Fiction" },
+                  new Genre {  Name = "Romance" }
+
+
+                );
                 context.SaveChanges();
             }
-            
         }    
 	       
     }

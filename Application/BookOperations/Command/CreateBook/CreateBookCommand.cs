@@ -1,4 +1,5 @@
-﻿using BookStore.Context;
+﻿using AutoMapper;
+using BookStore.Context;
 using BookStore.Entity;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace BookStore.BookOperations.CreateBook
     {
         public CreateBookViewModel Model { get; set; }
         private readonly BookStoreContext _context;
-        public CreateBookCommand(BookStoreContext context)
+        private readonly IMapper _mapper;
+        public CreateBookCommand(BookStoreContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public void Add()
@@ -21,13 +24,14 @@ namespace BookStore.BookOperations.CreateBook
             var book = _context.Books.SingleOrDefault(x=>x.Title==Model.Title);
             if (book is not null)
                 throw new InvalidOperationException("Kitap zaten mevcut");
-                               
-           
-            book = new Book();
-            book.Title = Model.Title;
-            book.PageCount = Model.PageCount;
-            book.PublishDate = Model.PublishDate;
-            book.GenreId = Model.GenreId;
+
+
+            //book = new Book();
+            //book.Title = Model.Title;
+            //book.PageCount = Model.PageCount;
+            //book.PublishDate = Model.PublishDate;
+            //book.GenreId = Model.GenreId;
+            book = _mapper.Map<Book>(Model);//Model ile gelen objeyi book objesine convert et.
             _context.Books.Add(book);
             _context.SaveChanges(); 
                  

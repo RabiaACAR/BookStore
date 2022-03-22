@@ -1,4 +1,5 @@
-﻿using BookStore.BookOperations.CreateBook;
+﻿using AutoMapper;
+using BookStore.BookOperations.CreateBook;
 using BookStore.BookOperations.DeleteBook;
 using BookStore.BookOperations.GetBooks;
 using BookStore.BookOperations.GetById;
@@ -21,9 +22,11 @@ namespace BookStore.Controllers
     public class BookController : ControllerBase
     {
         private readonly BookStoreContext _context;
-        public BookController(BookStoreContext context)
+        private readonly IMapper _mapper;
+       public BookController(BookStoreContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
 
@@ -194,7 +197,7 @@ namespace BookStore.Controllers
          [HttpGet]
          public IActionResult getBooks()
         {
-            GetBooksQuery query = new GetBooksQuery(_context);
+            GetBooksQuery query = new GetBooksQuery(_context, _mapper);
             var result = query.Handle();
             return Ok(result);
         }
@@ -202,7 +205,7 @@ namespace BookStore.Controllers
 
         public IActionResult AddBook([FromBody]CreateBookViewModel AdddedBook)
         {
-            CreateBookCommand command = new CreateBookCommand(_context);
+            CreateBookCommand command = new CreateBookCommand(_context, _mapper);
          
                 command.Model = AdddedBook;
                 CreateBookValidator validationRules = new CreateBookValidator();
@@ -215,7 +218,7 @@ namespace BookStore.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            BooksGetByIdCommand command = new BooksGetByIdCommand(_context);
+            BooksGetByIdCommand command = new BooksGetByIdCommand(_context, _mapper);
           
                 command.id = id;
                 GetByIdValidator validationRules = new GetByIdValidator();
