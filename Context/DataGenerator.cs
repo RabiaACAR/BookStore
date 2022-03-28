@@ -34,6 +34,10 @@ namespace BookStore.Context
 
 
                 );
+                context.Authors.AddRange(
+                    new Author { FirstName = "George", LastName = "Orwell", Birthday = new DateTime(1934, 4, 4), BookId = 3 },
+                    new Author { FirstName = "Ahmet", LastName = "Ümit", Birthday = new DateTime(1034, 5, 5), BookId = 2 }
+                    );
                 context.SaveChanges();
             }
         }    

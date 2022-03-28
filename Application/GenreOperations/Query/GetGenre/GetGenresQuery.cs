@@ -27,7 +27,7 @@ namespace BookStore.Application.GenreOperations.Query.GetGenre
         {
             public int Id { get; set; }
             public string Name { get; set; }
-        public bool isActive { get; set; }
+            public bool isActive { get; set; }
     }
     }
 

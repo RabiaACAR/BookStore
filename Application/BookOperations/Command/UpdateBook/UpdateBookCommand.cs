@@ -15,6 +15,7 @@ namespace BookStore.BookOperations.UpdateBook
         public UpdateBookCommand(BookStoreContext context)
         {
             _context = context;
+           
         }
         public void Handle()
         {

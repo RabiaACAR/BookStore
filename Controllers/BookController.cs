@@ -227,8 +227,8 @@ namespace BookStore.Controllers
            
             return Ok(command.Handle());
         }
-        [HttpPut/*("{id}")*/]
-        public IActionResult updateBook(/*int id,*/ [FromBody] UpdateBookViewModel updatedBook)
+        [HttpPut("{id}")]
+        public IActionResult updateBook(int id, [FromBody] UpdateBookViewModel updatedBook)
         {
             UpdateBookCommand command = new UpdateBookCommand(_context);
            
